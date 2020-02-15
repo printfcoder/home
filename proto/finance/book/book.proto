@@ -1,0 +1,16 @@
+syntax = "proto3";
+
+package me.shux.home.finance.book;
+
+service User {
+    rpc AddExpense (NewExpenseRequest) returns (NewExpenseResponse) {
+    }
+}
+
+message NewExpenseRequest {
+    string type = 1;
+
+}
+
+message NewExpenseResponse {
+}
