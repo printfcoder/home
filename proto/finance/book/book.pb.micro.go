@@ -6,6 +6,7 @@ package book
 import (
 	fmt "fmt"
 	proto "github.com/golang/protobuf/proto"
+	_ "github.com/printfcoder/home/proto/common/page"
 	response "github.com/printfcoder/home/proto/common/response"
 	_ "github.com/printfcoder/home/proto/common/time"
 	math "math"
@@ -33,26 +34,29 @@ var _ context.Context
 var _ client.Option
 var _ server.Option
 
-// Client API for User service
+// Client API for Book service
 
-type UserService interface {
+type BookService interface {
 	AddExpense(ctx context.Context, in *NewExpenseRequest, opts ...client.CallOption) (*response.Response, error)
+	RemoveExpense(ctx context.Context, in *RemoveExpenseRequest, opts ...client.CallOption) (*response.Response, error)
+	UpdateExpense(ctx context.Context, in *UpdateExpenseRequest, opts ...client.CallOption) (*response.Response, error)
+	ListExpenses(ctx context.Context, in *ListExpensesRequest, opts ...client.CallOption) (*response.Response, error)
 }
 
-type userService struct {
+type bookService struct {
 	c    client.Client
 	name string
 }
 
-func NewUserService(name string, c client.Client) UserService {
-	return &userService{
+func NewBookService(name string, c client.Client) BookService {
+	return &bookService{
 		c:    c,
 		name: name,
 	}
 }
 
-func (c *userService) AddExpense(ctx context.Context, in *NewExpenseRequest, opts ...client.CallOption) (*response.Response, error) {
-	req := c.c.NewRequest(c.name, "User.AddExpense", in)
+func (c *bookService) AddExpense(ctx context.Context, in *NewExpenseRequest, opts ...client.CallOption) (*response.Response, error) {
+	req := c.c.NewRequest(c.name, "Book.AddExpense", in)
 	out := new(response.Response)
 	err := c.c.Call(ctx, req, out, opts...)
 	if err != nil {
@@ -61,27 +65,75 @@ func (c *userService) AddExpense(ctx context.Context, in *NewExpenseRequest, opt
 	return out, nil
 }
 
-// Server API for User service
+func (c *bookService) RemoveExpense(ctx context.Context, in *RemoveExpenseRequest, opts ...client.CallOption) (*response.Response, error) {
+	req := c.c.NewRequest(c.name, "Book.RemoveExpense", in)
+	out := new(response.Response)
+	err := c.c.Call(ctx, req, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
 
-type UserHandler interface {
+func (c *bookService) UpdateExpense(ctx context.Context, in *UpdateExpenseRequest, opts ...client.CallOption) (*response.Response, error) {
+	req := c.c.NewRequest(c.name, "Book.UpdateExpense", in)
+	out := new(response.Response)
+	err := c.c.Call(ctx, req, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *bookService) ListExpenses(ctx context.Context, in *ListExpensesRequest, opts ...client.CallOption) (*response.Response, error) {
+	req := c.c.NewRequest(c.name, "Book.ListExpenses", in)
+	out := new(response.Response)
+	err := c.c.Call(ctx, req, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+// Server API for Book service
+
+type BookHandler interface {
 	AddExpense(context.Context, *NewExpenseRequest, *response.Response) error
+	RemoveExpense(context.Context, *RemoveExpenseRequest, *response.Response) error
+	UpdateExpense(context.Context, *UpdateExpenseRequest, *response.Response) error
+	ListExpenses(context.Context, *ListExpensesRequest, *response.Response) error
 }
 
-func RegisterUserHandler(s server.Server, hdlr UserHandler, opts ...server.HandlerOption) error {
-	type user interface {
+func RegisterBookHandler(s server.Server, hdlr BookHandler, opts ...server.HandlerOption) error {
+	type book interface {
 		AddExpense(ctx context.Context, in *NewExpenseRequest, out *response.Response) error
+		RemoveExpense(ctx context.Context, in *RemoveExpenseRequest, out *response.Response) error
+		UpdateExpense(ctx context.Context, in *UpdateExpenseRequest, out *response.Response) error
+		ListExpenses(ctx context.Context, in *ListExpensesRequest, out *response.Response) error
 	}
-	type User struct {
-		user
+	type Book struct {
+		book
 	}
-	h := &userHandler{hdlr}
-	return s.Handle(s.NewHandler(&User{h}, opts...))
+	h := &bookHandler{hdlr}
+	return s.Handle(s.NewHandler(&Book{h}, opts...))
 }
 
-type userHandler struct {
-	UserHandler
+type bookHandler struct {
+	BookHandler
 }
 
-func (h *userHandler) AddExpense(ctx context.Context, in *NewExpenseRequest, out *response.Response) error {
-	return h.UserHandler.AddExpense(ctx, in, out)
+func (h *bookHandler) AddExpense(ctx context.Context, in *NewExpenseRequest, out *response.Response) error {
+	return h.BookHandler.AddExpense(ctx, in, out)
+}
+
+func (h *bookHandler) RemoveExpense(ctx context.Context, in *RemoveExpenseRequest, out *response.Response) error {
+	return h.BookHandler.RemoveExpense(ctx, in, out)
+}
+
+func (h *bookHandler) UpdateExpense(ctx context.Context, in *UpdateExpenseRequest, out *response.Response) error {
+	return h.BookHandler.UpdateExpense(ctx, in, out)
+}
+
+func (h *bookHandler) ListExpenses(ctx context.Context, in *ListExpensesRequest, out *response.Response) error {
+	return h.BookHandler.ListExpenses(ctx, in, out)
 }

@@ -5,13 +5,13 @@ import "github.com/printfcoder/home/proto/common/time/time.proto";
 import "github.com/printfcoder/home/proto/common/page/page.proto";
 
 service Book {
-    rpc AddExpense (NewExpenseRequest) returns (common.response.Response) {
+    rpc AddExpense (NewExpenseRequest) returns (response.Response) {
     }
-    rpc RemoveExpense (RemoveExpenseRequest) returns (common.response.Response) {
+    rpc RemoveExpense (RemoveExpenseRequest) returns (response.Response) {
     }
-    rpc UpdateExpense (UpdateExpenseRequest) returns (common.response.Response) {
+    rpc UpdateExpense (UpdateExpenseRequest) returns (response.Response) {
     }
-    rpc ListExpenses (ListExpenseRequest) returns (common.response.Response) {
+    rpc ListExpenses (ListExpensesRequest) returns (response.Response) {
     }
 }
 
@@ -36,9 +36,9 @@ message UpdateExpenseRequest {
     Expense expense = 1;
 }
 
-message ListExpenseRequest {
-    common.page.Page page = 1;
-    common.time.TimeSpan timeSpan = 2;
+message ListExpensesRequest {
+    page.Page page = 1;
+    time.TimeSpan timeSpan = 2;
     repeated int32 labels = 3;
     repeated string accountTypes = 4;
     repeated int32 members = 5;
