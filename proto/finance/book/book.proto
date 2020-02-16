@@ -1,20 +1,45 @@
 syntax = "proto3";
 
 import "github.com/printfcoder/home/proto/common/response/response.proto";
+import "github.com/printfcoder/home/proto/common/time/time.proto";
+import "github.com/printfcoder/home/proto/common/page/page.proto";
 
-service User {
+service Book {
     rpc AddExpense (NewExpenseRequest) returns (common.response.Response) {
+    }
+    rpc RemoveExpense (RemoveExpenseRequest) returns (common.response.Response) {
+    }
+    rpc UpdateExpense (UpdateExpenseRequest) returns (common.response.Response) {
+    }
+    rpc ListExpenses (ListExpenseRequest) returns (common.response.Response) {
     }
 }
 
 message Expense {
-    int32 label = 1;
-    float value = 2;
-    string accountType = 3;
-    repeated int32 members = 4;
-    int64 time = 5;
+    int32 id = 1;
+    int32 label = 2;
+    float value = 3;
+    string accountType = 4;
+    repeated int32 members = 5;
+    int64 time = 6;
 }
 
 message NewExpenseRequest {
     Expense expense = 1;
+}
+
+message RemoveExpenseRequest {
+    int64 id = 1;
+}
+
+message UpdateExpenseRequest {
+    Expense expense = 1;
+}
+
+message ListExpenseRequest {
+    common.page.Page page = 1;
+    common.time.TimeSpan timeSpan = 2;
+    repeated int32 labels = 3;
+    repeated string accountTypes = 4;
+    repeated int32 members = 5;
 }
