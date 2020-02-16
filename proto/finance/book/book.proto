@@ -1,16 +1,16 @@
 syntax = "proto3";
 
-package me.shux.home.finance.book;
+import "github.com/printfcoder/home/proto/common/response/response.proto";
 
 service User {
-    rpc AddExpense (NewExpenseRequest) returns (NewExpenseResponse) {
+    rpc AddExpense (NewExpenseRequest) returns (common.response.Response) {
     }
 }
 
 message NewExpenseRequest {
-    string type = 1;
-
-}
-
-message NewExpenseResponse {
+    int32 label = 1;
+    float value = 2;
+    string accountType = 3;
+    repeated int32 members = 4;
+    int64 time = 5;
 }
