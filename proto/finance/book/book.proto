@@ -7,10 +7,14 @@ service User {
     }
 }
 
-message NewExpenseRequest {
+message Expense {
     int32 label = 1;
     float value = 2;
     string accountType = 3;
     repeated int32 members = 4;
     int64 time = 5;
+}
+
+message NewExpenseRequest {
+    Expense expense = 1;
 }
