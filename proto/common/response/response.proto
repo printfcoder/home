@@ -1,0 +1,13 @@
+syntax = "proto3";
+
+package common.response;
+
+import "google/protobuf/any.proto";
+import "github.com/printfcoder/home/proto/common/error/error.proto";
+
+message Response {
+    string status = 1;
+    string msg = 2;
+    google.protobuf.Any data = 3;
+    common.error.Error error = 4;
+}
