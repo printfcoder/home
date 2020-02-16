@@ -1,3 +1,3 @@
 # Proto
 
-All of proto file is here.
+All of proto files are here.
