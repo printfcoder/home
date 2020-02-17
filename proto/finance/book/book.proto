@@ -16,11 +16,11 @@ service Book {
 }
 
 message Expense {
-    int32 id = 1;
-    int32 label = 2;
+    int64 id = 1;
+    int64 label = 2;
     float value = 3;
     string accountType = 4;
-    repeated int32 members = 5;
+    repeated int64 members = 5;
     int64 time = 6;
 }
 
@@ -39,7 +39,7 @@ message UpdateExpenseRequest {
 message ListExpensesRequest {
     page.Page page = 1;
     time.TimeSpan timeSpan = 2;
-    repeated int32 labels = 3;
+    repeated int64 labels = 3;
     repeated string accountTypes = 4;
-    repeated int32 members = 5;
+    repeated int64 members = 5;
 }
