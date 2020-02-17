@@ -10,8 +10,8 @@ import (
 type BookRepository interface {
 	Init() (err error)
 	String() (name string)
-	NewExpense(expense book.NewExpenseRequest) (ret book.Expense, err error)
-	UpdateExpense(expense book.UpdateExpenseRequest) (err error)
+	NewExpense(req book.NewExpenseRequest) (ret book.Expense, err error)
+	UpdateExpense(req book.UpdateExpenseRequest) (err error)
 	ListExpenses(req book.ListExpensesRequest) (ret page.Page, err error)
 	RemoveExpense(id int64) (err error)
 }

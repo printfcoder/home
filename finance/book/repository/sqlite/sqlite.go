@@ -2,6 +2,7 @@ package sqlite
 
 import (
 	"database/sql"
+	"fmt"
 	_ "github.com/mattn/go-sqlite3"
 
 	"github.com/printfcoder/home/finance/book/repository"
@@ -39,6 +40,10 @@ var (
 );
 `
 	createSQLs = []string{expenseCreateSQL, memberCreateSQL, exMemCreateSQL}
+
+	insertExpenseSQL = `INSERT INTO expense (label, value, account_type, time) VALUES (?, ?, ?, ?)`
+	insertExMemSQL   = `INSERT INTO expense_member (expense_id, member_id) VALUES (?, ?)`
+	db               *sql.DB
 )
 
 type repo struct {
@@ -49,14 +54,14 @@ func init() {
 }
 
 func (b *repo) Init() (err error) {
-	database, err := sql.Open("sqlite3", DefaultDB)
+	db, err = sql.Open("sqlite3", DefaultDB)
 	if err != nil {
 		panic(err)
 	}
 
 	for _, s := range createSQLs {
 		func() {
-			stmt, err := database.Prepare(s)
+			stmt, err := db.Prepare(s)
 			if err != nil {
 				panic(err)
 			}
@@ -73,11 +78,53 @@ func (b *repo) String() (name string) {
 	return "sqlite"
 }
 
-func (b *repo) NewExpense(expense book.NewExpenseRequest) (ret book.Expense, err error) {
+func (b *repo) NewExpense(req book.NewExpenseRequest) (ret book.Expense, err error) {
+	tx, err := db.Begin()
+	if err != nil {
+		return
+	}
+
+	defer func() {
+		if err != nil {
+			err = fmt.Errorf("[NewExpense] err: %s", err)
+			// log
+			_ = tx.Rollback()
+		}
+	}()
+
+	// expense data
+	result, err := tx.Exec(insertExpenseSQL, req.Expense.Label, req.Expense.Value, req.Expense.AccountType, req.Expense.Time)
+	if err != nil {
+		return
+	}
+
+	expenseId, err := result.LastInsertId()
+	if err != nil {
+		return
+	}
+
+	// member data
+	for _, id := range req.Expense.Members {
+		func() {
+			state, err := tx.Prepare(insertExMemSQL)
+			if err != nil {
+				return
+			}
+
+			_, err = state.Exec(expenseId, id)
+			if err != nil {
+				return
+			}
+
+			defer state.Close()
+		}()
+	}
+
+	err = tx.Commit()
 	return
 }
 
-func (b *repo) UpdateExpense(expense book.UpdateExpenseRequest) (err error) {
+func (b *repo) UpdateExpense(req book.UpdateExpenseRequest) (err error) {
 	return
 }
 
