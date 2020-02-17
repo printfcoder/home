@@ -11,6 +11,34 @@ import (
 
 var (
 	DefaultDB = "/Users/shuxian/workspace/go/src/github.com/printfcoder/home/.data/finbook.db"
+
+	expenseCreateSQL = `create table IF NOT EXISTS expense
+(
+    id           integer
+        constraint expense_pk
+            primary key autoincrement,
+    label        integer,
+    value        NUMERIC not null,
+    account_type text,
+    time         NUMERIC
+);`
+	memberCreateSQL = `create table IF NOT EXISTS member
+(
+    id   integer
+        constraint member_pk
+            primary key autoincrement,
+    name text not null
+);`
+	exMemCreateSQL = `create table IF NOT EXISTS expense_member
+(
+    id         integer
+        constraint expense_members_pk
+            primary key autoincrement,
+    expense_id integer not null,
+    member_id  integer not null
+);
+`
+	createSQLs = []string{expenseCreateSQL, memberCreateSQL, exMemCreateSQL}
 )
 
 type repo struct {
@@ -26,14 +54,16 @@ func (b *repo) Init() (err error) {
 		panic(err)
 	}
 
-	statement, err := database.Prepare("CREATE TABLE IF NOT EXISTS people (id INTEGER PRIMARY KEY, firstname TEXT, lastname TEXT)")
-	if err != nil {
-		panic(err)
-	}
+	for _, s := range createSQLs {
+		func() {
+			stmt, err := database.Prepare(s)
+			if err != nil {
+				panic(err)
+			}
+			defer stmt.Close()
 
-	_, err = statement.Exec()
-	if err != nil {
-		panic(err)
+			stmt.Exec()
+		}()
 	}
 
 	return
