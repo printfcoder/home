@@ -43,7 +43,12 @@ var (
 
 	insertExpenseSQL = `INSERT INTO expense (label, value, account_type, time) VALUES (?, ?, ?, ?)`
 	insertExMemSQL   = `INSERT INTO expense_member (expense_id, member_id) VALUES (?, ?)`
-	db               *sql.DB
+
+	updateExpenseSQL = `UPDATE expense SET label = ?, value = ?, account_type = ?, time = ? WHERE id = ? `
+
+	deleteExMemSQL = `DELETE FROM expense_member WHERE expense_id = ? AND member_id = ?`
+
+	db *sql.DB
 )
 
 type repo struct {
@@ -103,21 +108,9 @@ func (b *repo) NewExpense(req book.NewExpenseRequest) (ret book.Expense, err err
 		return
 	}
 
-	// member data
-	for _, id := range req.Expense.Members {
-		func() {
-			state, err := tx.Prepare(insertExMemSQL)
-			if err != nil {
-				return
-			}
-
-			_, err = state.Exec(expenseId, id)
-			if err != nil {
-				return
-			}
-
-			defer state.Close()
-		}()
+	err = insertOrDeleteMembers(tx, insertExMemSQL, expenseId, req.Expense.Members)
+	if err != nil {
+		return
 	}
 
 	err = tx.Commit()
@@ -125,6 +118,39 @@ func (b *repo) NewExpense(req book.NewExpenseRequest) (ret book.Expense, err err
 }
 
 func (b *repo) UpdateExpense(req book.UpdateExpenseRequest) (err error) {
+	tx, err := db.Begin()
+	if err != nil {
+		return
+	}
+
+	defer func() {
+		if err != nil {
+			err = fmt.Errorf("[NewExpense] err: %s", err)
+			// log
+			_ = tx.Rollback()
+		}
+	}()
+
+	// expense data
+	_, err = tx.Exec(updateExpenseSQL, req.Expense.Label, req.Expense.Value, req.Expense.AccountType,
+		req.Expense.Time, req.Expense.Id)
+	if err != nil {
+		return
+	}
+
+	// delete all old members
+	err = insertOrDeleteMembers(tx, deleteExMemSQL, req.Expense.Id, req.Expense.Members)
+	if err != nil {
+		return
+	}
+
+	// insert the new members
+	err = insertOrDeleteMembers(tx, insertExMemSQL, req.Expense.Id, req.Expense.Members)
+	if err != nil {
+		return
+	}
+
+	err = tx.Commit()
 	return
 }
 
@@ -133,5 +159,29 @@ func (b *repo) ListExpenses(req book.ListExpensesRequest) (ret page.Page, err er
 }
 
 func (b *repo) RemoveExpense(id int64) (err error) {
+	return
+}
+
+func insertOrDeleteMembers(tx *sql.Tx, insertOrDeleteSQL string, expenseId int64, memberIds []int64) (err error) {
+	for _, id := range memberIds {
+		err = func() (err error) {
+			state, err := tx.Prepare(insertExMemSQL)
+			if err != nil {
+				return
+			}
+			defer state.Close()
+
+			_, err = state.Exec(expenseId, id)
+			if err != nil {
+				return
+			}
+			return
+		}()
+
+		if err != nil {
+			return
+		}
+	}
+
 	return
 }
