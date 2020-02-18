@@ -37,8 +37,8 @@ var _ server.Option
 // Client API for Book service
 
 type BookService interface {
-	AddExpense(ctx context.Context, in *NewExpenseRequest, opts ...client.CallOption) (*response.Response, error)
-	RemoveExpense(ctx context.Context, in *RemoveExpenseRequest, opts ...client.CallOption) (*response.Response, error)
+	AddExpense(ctx context.Context, in *AddExpenseRequest, opts ...client.CallOption) (*response.Response, error)
+	DeleteExpense(ctx context.Context, in *DeleteExpenseRequest, opts ...client.CallOption) (*response.Response, error)
 	UpdateExpense(ctx context.Context, in *UpdateExpenseRequest, opts ...client.CallOption) (*response.Response, error)
 	ListExpenses(ctx context.Context, in *ListExpensesRequest, opts ...client.CallOption) (*response.Response, error)
 }
@@ -55,7 +55,7 @@ func NewBookService(name string, c client.Client) BookService {
 	}
 }
 
-func (c *bookService) AddExpense(ctx context.Context, in *NewExpenseRequest, opts ...client.CallOption) (*response.Response, error) {
+func (c *bookService) AddExpense(ctx context.Context, in *AddExpenseRequest, opts ...client.CallOption) (*response.Response, error) {
 	req := c.c.NewRequest(c.name, "Book.AddExpense", in)
 	out := new(response.Response)
 	err := c.c.Call(ctx, req, out, opts...)
@@ -65,8 +65,8 @@ func (c *bookService) AddExpense(ctx context.Context, in *NewExpenseRequest, opt
 	return out, nil
 }
 
-func (c *bookService) RemoveExpense(ctx context.Context, in *RemoveExpenseRequest, opts ...client.CallOption) (*response.Response, error) {
-	req := c.c.NewRequest(c.name, "Book.RemoveExpense", in)
+func (c *bookService) DeleteExpense(ctx context.Context, in *DeleteExpenseRequest, opts ...client.CallOption) (*response.Response, error) {
+	req := c.c.NewRequest(c.name, "Book.DeleteExpense", in)
 	out := new(response.Response)
 	err := c.c.Call(ctx, req, out, opts...)
 	if err != nil {
@@ -98,16 +98,16 @@ func (c *bookService) ListExpenses(ctx context.Context, in *ListExpensesRequest,
 // Server API for Book service
 
 type BookHandler interface {
-	AddExpense(context.Context, *NewExpenseRequest, *response.Response) error
-	RemoveExpense(context.Context, *RemoveExpenseRequest, *response.Response) error
+	AddExpense(context.Context, *AddExpenseRequest, *response.Response) error
+	DeleteExpense(context.Context, *DeleteExpenseRequest, *response.Response) error
 	UpdateExpense(context.Context, *UpdateExpenseRequest, *response.Response) error
 	ListExpenses(context.Context, *ListExpensesRequest, *response.Response) error
 }
 
 func RegisterBookHandler(s server.Server, hdlr BookHandler, opts ...server.HandlerOption) error {
 	type book interface {
-		AddExpense(ctx context.Context, in *NewExpenseRequest, out *response.Response) error
-		RemoveExpense(ctx context.Context, in *RemoveExpenseRequest, out *response.Response) error
+		AddExpense(ctx context.Context, in *AddExpenseRequest, out *response.Response) error
+		DeleteExpense(ctx context.Context, in *DeleteExpenseRequest, out *response.Response) error
 		UpdateExpense(ctx context.Context, in *UpdateExpenseRequest, out *response.Response) error
 		ListExpenses(ctx context.Context, in *ListExpensesRequest, out *response.Response) error
 	}
@@ -122,12 +122,12 @@ type bookHandler struct {
 	BookHandler
 }
 
-func (h *bookHandler) AddExpense(ctx context.Context, in *NewExpenseRequest, out *response.Response) error {
+func (h *bookHandler) AddExpense(ctx context.Context, in *AddExpenseRequest, out *response.Response) error {
 	return h.BookHandler.AddExpense(ctx, in, out)
 }
 
-func (h *bookHandler) RemoveExpense(ctx context.Context, in *RemoveExpenseRequest, out *response.Response) error {
-	return h.BookHandler.RemoveExpense(ctx, in, out)
+func (h *bookHandler) DeleteExpense(ctx context.Context, in *DeleteExpenseRequest, out *response.Response) error {
+	return h.BookHandler.DeleteExpense(ctx, in, out)
 }
 
 func (h *bookHandler) UpdateExpense(ctx context.Context, in *UpdateExpenseRequest, out *response.Response) error {

@@ -5,9 +5,9 @@ import "github.com/printfcoder/home/proto/common/time/time.proto";
 import "github.com/printfcoder/home/proto/common/page/page.proto";
 
 service Book {
-    rpc AddExpense (NewExpenseRequest) returns (response.Response) {
+    rpc AddExpense (AddExpenseRequest) returns (response.Response) {
     }
-    rpc RemoveExpense (RemoveExpenseRequest) returns (response.Response) {
+    rpc DeleteExpense (DeleteExpenseRequest) returns (response.Response) {
     }
     rpc UpdateExpense (UpdateExpenseRequest) returns (response.Response) {
     }
@@ -24,11 +24,11 @@ message Expense {
     int64 time = 6;
 }
 
-message NewExpenseRequest {
+message AddExpenseRequest {
     Expense expense = 1;
 }
 
-message RemoveExpenseRequest {
+message DeleteExpenseRequest {
     int64 id = 1;
 }
 
