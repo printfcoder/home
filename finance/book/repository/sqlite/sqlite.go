@@ -3,8 +3,8 @@ package sqlite
 import (
 	"database/sql"
 	"fmt"
-	_ "github.com/mattn/go-sqlite3"
 
+	_ "github.com/mattn/go-sqlite3"
 	"github.com/printfcoder/home/finance/book/repository"
 	"github.com/printfcoder/home/proto/common/page"
 	"github.com/printfcoder/home/proto/finance/book"
@@ -46,7 +46,9 @@ var (
 
 	updateExpenseSQL = `UPDATE expense SET label = ?, value = ?, account_type = ?, time = ? WHERE id = ? `
 
-	deleteExMemSQL = `DELETE FROM expense_member WHERE expense_id = ? AND member_id = ?`
+	deleteExMemSQL    = `DELETE FROM expense_member WHERE expense_id = ? AND member_id = ?`
+	deleteExMemAllSQL = `DELETE FROM expense_member WHERE expense_id = ?`
+	deleteExSQL       = `DELETE FROM expense WHERE id = ?`
 
 	db *sql.DB
 )
@@ -125,7 +127,7 @@ func (b *repo) UpdateExpense(req book.UpdateExpenseRequest) (err error) {
 
 	defer func() {
 		if err != nil {
-			err = fmt.Errorf("[NewExpense] err: %s", err)
+			err = fmt.Errorf("[UpdateExpense] err: %s", err)
 			// log
 			_ = tx.Rollback()
 		}
@@ -158,7 +160,34 @@ func (b *repo) ListExpenses(req book.ListExpensesRequest) (ret page.Page, err er
 	return
 }
 
-func (b *repo) RemoveExpense(id int64) (err error) {
+func (b *repo) DeleteExpense(id int64) (err error) {
+	tx, err := db.Begin()
+	if err != nil {
+		return
+	}
+
+	defer func() {
+		if err != nil {
+			err = fmt.Errorf("[DeleteExpense] err: %s", err)
+			// log
+			_ = tx.Rollback()
+		}
+	}()
+
+	// delete expense
+	_, err = tx.Exec(deleteExSQL, id)
+	if err != nil {
+		return
+	}
+
+	// delete members
+	_, err = tx.Exec(deleteExMemAllSQL, id)
+	if err != nil {
+		return
+	}
+
+	err = tx.Commit()
+
 	return
 }
 

@@ -13,7 +13,7 @@ type BookRepository interface {
 	NewExpense(req book.NewExpenseRequest) (ret book.Expense, err error)
 	UpdateExpense(req book.UpdateExpenseRequest) (err error)
 	ListExpenses(req book.ListExpensesRequest) (ret page.Page, err error)
-	RemoveExpense(id int64) (err error)
+	DeleteExpense(id int64) (err error)
 }
 
 var (
