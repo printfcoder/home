@@ -10,7 +10,7 @@ import (
 type BookRepository interface {
 	Init() (err error)
 	String() (name string)
-	NewExpense(req book.NewExpenseRequest) (ret book.Expense, err error)
+	NewExpense(req book.AddExpenseRequest) (ret book.Expense, err error)
 	UpdateExpense(req book.UpdateExpenseRequest) (err error)
 	ListExpenses(req book.ListExpensesRequest) (ret page.Page, err error)
 	DeleteExpense(id int64) (err error)
@@ -31,4 +31,8 @@ func Register(rep BookRepository) {
 
 func Init() {
 	repoMap[DefaultRepo].Init()
+}
+
+func Repo() BookRepository {
+	return repoMap[DefaultRepo]
 }

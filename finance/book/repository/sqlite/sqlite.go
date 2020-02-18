@@ -85,7 +85,7 @@ func (b *repo) String() (name string) {
 	return "sqlite"
 }
 
-func (b *repo) NewExpense(req book.NewExpenseRequest) (ret book.Expense, err error) {
+func (b *repo) NewExpense(req book.AddExpenseRequest) (ret book.Expense, err error) {
 	tx, err := db.Begin()
 	if err != nil {
 		return
@@ -116,6 +116,9 @@ func (b *repo) NewExpense(req book.NewExpenseRequest) (ret book.Expense, err err
 	}
 
 	err = tx.Commit()
+
+	ret = *req.Expense
+	ret.Id = expenseId
 	return
 }
 
