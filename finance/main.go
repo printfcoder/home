@@ -4,7 +4,8 @@ import (
 	"github.com/micro/cli/v2"
 	"github.com/micro/go-micro/v2"
 	"github.com/printfcoder/home/finance/book"
-	book2 "github.com/printfcoder/home/proto/finance/book"
+	"github.com/printfcoder/home/finance/book/handler"
+	bProto "github.com/printfcoder/home/proto/finance/book"
 )
 
 func main() {
@@ -17,9 +18,12 @@ func main() {
 		return nil
 	}))
 
-	book2.RegisterBookHandler(s.Server(),hander)
+	err := bProto.RegisterBookHandler(s.Server(), new(handler.BookHandler))
+	if err != nil {
+		panic(err)
+	}
 
-	err := s.Run()
+	err = s.Run()
 	if err != nil {
 		panic(err)
 	}
