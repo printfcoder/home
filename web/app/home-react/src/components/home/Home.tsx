@@ -5,16 +5,22 @@ import * as React from "react";
 export interface HomeProps {
 }
 
+class state {
+    public selectedTab!: string;
+    public hidden!: boolean;
+    public fullScreen!: boolean;
+}
+
 export class Home extends React.Component<HomeProps, {}> {
     constructor(props: any) {
         super(props);
-        this.state = {
-            selectedTab: 'redTab',
-            hidden: false,
-            fullScreen: false,
-        };
     }
 
+    state: state = {
+        selectedTab: 'redTab',
+        hidden: false,
+        fullScreen: true,
+    };
 
     renderContent(pageText: String) {
         return (
