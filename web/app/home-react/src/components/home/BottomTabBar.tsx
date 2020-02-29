@@ -12,12 +12,13 @@ class state {
     public selectedTab!: string;
 }
 
+
 export class BottomTabBar extends React.Component<BottomTabBarProps, {}> {
     constructor(props: any) {
         super(props);
 
         this.state = {
-            selectedTab: "",
+            selectedTab: "home",
         }
     }
 
@@ -31,9 +32,6 @@ export class BottomTabBar extends React.Component<BottomTabBarProps, {}> {
                 width: '100%',
                 top: 0
             }}>
-                dddddd
-                <HIcon name="home" size={22} color="red"></HIcon>
-                bbbbbb
                 <TabBar
                     unselectedTintColor="#949494"
                     tintColor="#33A3F4"
@@ -41,94 +39,54 @@ export class BottomTabBar extends React.Component<BottomTabBarProps, {}> {
                 >
                     <TabBar.Item
                         title="首页"
-                        key="Life"
-                        icon={<div style={{
-                            width: '22px',
-                            height: '22px',
-                            background: 'url(assets/icon/iconfont.svg#iconfont-plan) center center /  21px 21px no-repeat'
-                        }}
-                        >
-                        </div>
-                        }
-                        selectedIcon={<div style={{
-                            width: '22px',
-                            height: '22px',
-                            background: 'url(https://zos.alipayobjects.com/rmsportal/iSrlOTqrKddqbOmlvUfq.svg) center center /  21px 21px no-repeat'
-                        }}
-                        />
-                        }
-                        selected={this.state.selectedTab === 'blueTab'}
+                        key="home"
+                        icon={<HIcon name="home"></HIcon>}
+                        selectedIcon={<HIcon name="home-selected"></HIcon>}
+                        selected={this.state.selectedTab === 'home'}
                         badge={1}
                         onPress={() => {
                             this.setState({
-                                selectedTab: 'blueTab',
+                                selectedTab: 'home',
                             });
                         }}
-                        data-seed="logId"
+                        data-seed="home"
                     >
                     </TabBar.Item>
                     <TabBar.Item
-                        icon={
-                            <div style={{
-                                width: '22px',
-                                height: '22px',
-                                background: 'url(https://gw.alipayobjects.com/zos/rmsportal/BTSsmHkPsQSPTktcXyTV.svg) center center /  21px 21px no-repeat'
-                            }}
-                            />
-                        }
-                        selectedIcon={
-                            <div style={{
-                                width: '22px',
-                                height: '22px',
-                                background: 'url(https://gw.alipayobjects.com/zos/rmsportal/ekLecvKBnRazVLXbWOnE.svg) center center /  21px 21px no-repeat'
-                            }}
-                            />
-                        }
-                        title="Koubei"
-                        key="Koubei"
-                        badge={'new'}
-                        selected={this.state.selectedTab === 'redTab'}
+                        title="账本"
+                        key="zhangben"
+                        icon={<HIcon name="zhangben"></HIcon>}
+                        selectedIcon={<HIcon name="zhangben-selected"></HIcon>}
+                        selected={this.state.selectedTab === 'zhangben'}
+                        badge={1}
                         onPress={() => {
                             this.setState({
-                                selectedTab: 'redTab',
+                                selectedTab: 'zhangben',
                             });
                         }}
-                        data-seed="logId1"
+                        data-seed="zhangben"
                     >
                     </TabBar.Item>
                     <TabBar.Item
-                        icon={
-                            <div style={{
-                                width: '22px',
-                                height: '22px',
-                                background: 'url(https://zos.alipayobjects.com/rmsportal/psUFoAMjkCcjqtUCNPxB.svg) center center /  21px 21px no-repeat'
-                            }}
-                            />
-                        }
-                        selectedIcon={
-                            <div style={{
-                                width: '22px',
-                                height: '22px',
-                                background: 'url(https://zos.alipayobjects.com/rmsportal/IIRLrXXrFAhXVdhMWgUI.svg) center center /  21px 21px no-repeat'
-                            }}
-                            />
-                        }
-                        title="Friend"
-                        key="Friend"
-                        dot
-                        selected={this.state.selectedTab === 'greenTab'}
+                        title="计划"
+                        key="plan"
+                        icon={<HIcon name="plan"></HIcon>}
+                        selectedIcon={<HIcon name="plan-selected"></HIcon>}
+                        selected={this.state.selectedTab === 'plan'}
+                        badge={1}
                         onPress={() => {
                             this.setState({
-                                selectedTab: 'greenTab',
+                                selectedTab: 'plan',
                             });
                         }}
+                        data-seed="plan"
                     >
                     </TabBar.Item>
                     <TabBar.Item
-                        icon={{uri: 'https://zos.alipayobjects.com/rmsportal/asJMfBrNqpMMlVpeInPQ.svg'}}
-                        selectedIcon={{uri: 'https://zos.alipayobjects.com/rmsportal/gjpzzcrPMkhfEqgbYvmN.svg'}}
-                        title="My"
-                        key="my"
+                        title="我的"
+                        key="me"
+                        icon={<HIcon name="me"></HIcon>}
+                        selectedIcon={<HIcon name="me-selected"></HIcon>}
                         selected={this.state.selectedTab === 'yellowTab'}
                         onPress={() => {
                             this.setState({
