@@ -87,10 +87,10 @@ export class BottomTabBar extends React.Component<BottomTabBarProps, {}> {
                         key="me"
                         icon={<HIcon name="me"></HIcon>}
                         selectedIcon={<HIcon name="me-selected"></HIcon>}
-                        selected={this.state.selectedTab === 'yellowTab'}
+                        selected={this.state.selectedTab === 'me'}
                         onPress={() => {
                             this.setState({
-                                selectedTab: 'yellowTab',
+                                selectedTab: 'me',
                             });
                         }}
                     >
