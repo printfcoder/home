@@ -1,10 +1,20 @@
 import * as React from "react";
-import {ReactComponent as Icon} from '../../assets/icon/iconfont.svg';
 import PropTypes from 'prop-types';
 
+import "../../assets/icon/iconfont.js"
+
 const HIcon = ({name, color, size}: { name: string, color: string, size: number }) => (
-    <svg className={`icon icon-${name}`} fill={color} width={size} height={size}>
-        <use xlinkHref={`${Icon}#icon-${name}`}/>
+    <svg aria-hidden="true" style={{
+        /*  fontFamily: "iconfont",
+          fontSize: "16px",
+          fontStyle: "normal",*/
+        width: "1em",
+        height: "1em",
+        verticalAlign: "-0.15em",
+        fill: "currentColor",
+        overflow: "hidden"
+    }} className="icon" fill={color} width={size} height={size}>
+        <use xlinkHref={`#icon-${name}`}/>
     </svg>
 );
 

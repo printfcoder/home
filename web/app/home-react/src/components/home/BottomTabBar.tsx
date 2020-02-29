@@ -1,5 +1,6 @@
 import {TabBar} from 'antd-mobile';
-import { ReactComponent as Icon } from 'assets/icon/iconfont.svg';
+
+import HIcon from "../../components/icon/HIcon";
 
 
 import * as React from "react";
@@ -30,6 +31,9 @@ export class BottomTabBar extends React.Component<BottomTabBarProps, {}> {
                 width: '100%',
                 top: 0
             }}>
+                dddddd
+                <HIcon name="home" size={22} color="red"></HIcon>
+                bbbbbb
                 <TabBar
                     unselectedTintColor="#949494"
                     tintColor="#33A3F4"
@@ -44,7 +48,6 @@ export class BottomTabBar extends React.Component<BottomTabBarProps, {}> {
                             background: 'url(assets/icon/iconfont.svg#iconfont-plan) center center /  21px 21px no-repeat'
                         }}
                         >
-                            <Icon></Icon>
                         </div>
                         }
                         selectedIcon={<div style={{
