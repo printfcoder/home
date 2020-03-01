@@ -1,16 +1,13 @@
-import {BottomTabBar} from './BottomTabBar';
-import {HBody} from './HBody';
-
 import * as React from "react";
 
-export interface HomeProps {
+export interface StatementProps {
 }
 
 class state {
     public selectedTab!: string;
 }
 
-export class Home extends React.Component<HomeProps, {}> {
+export class Statement extends React.Component<StatementProps, {}> {
     constructor(props: any) {
         super(props);
     }
@@ -21,9 +18,9 @@ export class Home extends React.Component<HomeProps, {}> {
 
     render() {
         return (
+            // todo 布局
             <div>
-                <HBody/>
-                <BottomTabBar/>
+                报表清单
             </div>
         );
     }
