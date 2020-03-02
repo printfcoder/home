@@ -3,12 +3,12 @@ import {HBody} from './HBody';
 import {Head} from './Head';
 
 import * as React from "react";
+import store from "../../store"
 
 export interface BookProps {
 }
 
 class state {
-    public display!: string;
 }
 
 export class Book extends React.Component<BookProps, {}> {
@@ -16,14 +16,15 @@ export class Book extends React.Component<BookProps, {}> {
         super(props);
     }
 
-    state: state = {
-        display: "block",
-    };
+    name = "book"
+    state: state = {};
 
     render() {
         return (
             // todo 布局
-            <div style={{display: this.state.display}}>
+            <div
+                className={"body-" + (this.name === store.getState().home.bottomTabBar.selectTab ? "normal" : "hidden")}
+                style={{}}>
                 <Head/>
                 <HBody/>
                 <Drawer/>

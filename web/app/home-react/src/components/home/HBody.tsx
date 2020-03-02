@@ -6,7 +6,6 @@ export interface HBodyProps {
 }
 
 class state {
-    public display!: string;
 }
 
 export class HBody extends React.Component<HBodyProps, {}> {
@@ -14,9 +13,7 @@ export class HBody extends React.Component<HBodyProps, {}> {
         super(props);
     }
 
-    state: state = {
-        display: "none",
-    };
+    state: state = {};
 
     render() {
         return (

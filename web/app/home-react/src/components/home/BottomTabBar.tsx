@@ -2,6 +2,9 @@ import {TabBar} from 'antd-mobile';
 
 import HIcon from "../../components/icon/HIcon";
 
+import store from "../../store"
+import {updateCart} from "../../reducers/home/Action"
+
 
 import * as React from "react";
 
@@ -11,7 +14,6 @@ export interface BottomTabBarProps {
 class state {
     public selectedTab!: string;
 }
-
 
 export class BottomTabBar extends React.Component<BottomTabBarProps, {}> {
     constructor(props: any) {
@@ -23,6 +25,11 @@ export class BottomTabBar extends React.Component<BottomTabBarProps, {}> {
     }
 
     state: state;
+
+    emitTabChangeEvent(tabName: string) {
+        this.state.selectedTab = tabName
+        store.dispatch(updateCart(tabName))
+    }
 
     render() {
         return (
@@ -45,9 +52,7 @@ export class BottomTabBar extends React.Component<BottomTabBarProps, {}> {
                         selected={this.state.selectedTab === 'home'}
                         badge={1}
                         onPress={() => {
-                            this.setState({
-                                selectedTab: 'home',
-                            });
+                            this.emitTabChangeEvent("home")
                         }}
                         data-seed="home"
                     >
@@ -60,9 +65,7 @@ export class BottomTabBar extends React.Component<BottomTabBarProps, {}> {
                         selected={this.state.selectedTab === 'zhangben'}
                         badge={1}
                         onPress={() => {
-                            this.setState({
-                                selectedTab: 'zhangben',
-                            });
+                            this.emitTabChangeEvent("zhangben")
                         }}
                         data-seed="zhangben"
                     >
@@ -75,9 +78,7 @@ export class BottomTabBar extends React.Component<BottomTabBarProps, {}> {
                         selected={this.state.selectedTab === 'plan'}
                         badge={1}
                         onPress={() => {
-                            this.setState({
-                                selectedTab: 'plan',
-                            });
+                            this.emitTabChangeEvent("plan")
                         }}
                         data-seed="plan"
                     >
@@ -89,9 +90,7 @@ export class BottomTabBar extends React.Component<BottomTabBarProps, {}> {
                         selectedIcon={<HIcon name="me-selected"></HIcon>}
                         selected={this.state.selectedTab === 'me'}
                         onPress={() => {
-                            this.setState({
-                                selectedTab: 'me',
-                            });
+                            this.emitTabChangeEvent("me")
                         }}
                     >
                     </TabBar.Item>

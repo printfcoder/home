@@ -1,0 +1,1 @@
+export const CHANGE_BOTTOM_TAB = 'CHANGE_BOTTOM_TAB';
