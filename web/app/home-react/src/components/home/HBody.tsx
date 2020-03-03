@@ -18,7 +18,7 @@ export class HBody extends React.Component<HBodyProps, {}> {
     render() {
         return (
             // todo 布局
-            <div>
+            <div className={"full-height"}>
                 <Book/>
             </div>
         );

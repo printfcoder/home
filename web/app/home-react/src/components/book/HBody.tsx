@@ -1,7 +1,13 @@
 import * as React from "react";
+import {Tabs, WhiteSpace} from 'antd-mobile';
 
 import {Flow} from "./Flow"
 import {Statement} from "./Statement"
+
+const tabs = [
+    {title: "记账"},
+    {title: "报表"},
+];
 
 export interface BodyProps {
 }
@@ -10,7 +16,7 @@ class state {
     public selectedTab!: string;
 }
 
-export class HBody extends React.Component<BodyProps, {}> {
+export class Body extends React.Component<BodyProps, {}> {
     constructor(props: any) {
         super(props);
     }
@@ -22,10 +28,12 @@ export class HBody extends React.Component<BodyProps, {}> {
     render() {
         return (
             // todo 布局
-            <div>
+            <Tabs tabs={tabs}
+                  initialPage={0}
+            >
                 <Flow/>
                 <Statement/>
-            </div>
+            </Tabs>
         );
     }
 }

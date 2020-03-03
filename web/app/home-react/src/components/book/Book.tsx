@@ -1,6 +1,5 @@
 import {Drawer} from './Drawer';
-import {HBody} from './HBody';
-import {Head} from './Head';
+import {Body} from './HBody';
 
 import * as React from "react";
 import store from "../../store"
@@ -39,10 +38,9 @@ export class Book extends React.Component<BookProps, {}> {
         return (
             // todo 布局
             <div
-                className={"body-" + (this.state.selectedMe ? "normal" : "hidden")}
+                className={"full-height body-" + (this.state.selectedMe ? "normal" : "hidden")}
                 style={{}}>
-                <Head/>
-                <HBody/>
+                <Body/>
                 <Drawer/>
             </div>
         );

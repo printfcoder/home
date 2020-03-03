@@ -5,7 +5,7 @@ import {Home} from "./components/home/Home";
 
 function App() {
     return (
-        <div className="Home">
+        <div className="Home full-height">
             <Home></Home>
         </div>
     );

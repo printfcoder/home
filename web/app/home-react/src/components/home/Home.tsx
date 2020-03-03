@@ -21,7 +21,7 @@ export class Home extends React.Component<HomeProps, {}> {
 
     render() {
         return (
-            <div>
+            <div className={"full-height"}>
                 <HBody/>
                 <BottomTabBar/>
             </div>

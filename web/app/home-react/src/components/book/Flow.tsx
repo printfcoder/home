@@ -18,9 +18,13 @@ export class Flow extends React.Component<FlowProps, {}> {
 
     render() {
         return (
-            // todo 布局
-            <div>
-                Body流水
+            <div className={"full-height box-full"} style={{
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                backgroundColor: '#fff'
+            }}>
+               流水记账
             </div>
         );
     }
