@@ -27,7 +27,7 @@ export class BottomTabBar extends React.Component<BottomTabBarProps, {}> {
     state: state;
 
     emitTabChangeEvent(tabName: string) {
-        this.state.selectedTab = tabName
+        this.setState({selectedTab: tabName})
         store.dispatch(updateCart(tabName))
     }
 
