@@ -1,13 +1,9 @@
-import {Drawer} from './Drawer';
-import {Body} from './HBody';
-
 import * as React from "react";
 
 export interface BookProps {
 }
 
 class state {
-    selectedMe!: boolean;
 }
 
 export class Expense extends React.Component<BookProps, {}> {
@@ -15,20 +11,11 @@ export class Expense extends React.Component<BookProps, {}> {
         super(props);
     }
 
-    name = "edit"
-    state: state = {
-        selectedMe: true,
-    };
+    state: state = {};
 
     render() {
         return (
-            // todo 布局
-            <div
-                className={"full-height body-" + (this.state.selectedMe ? "normal" : "hidden")}
-                style={{}}>
-                <Body/>
-                <Drawer/>
-            </div>
+            <div>13</div>
         );
     }
 }
