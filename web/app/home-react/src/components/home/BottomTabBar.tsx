@@ -20,7 +20,7 @@ export class BottomTabBar extends React.Component<BottomTabBarProps, {}> {
         super(props);
 
         this.state = {
-            selectedTab: "home",
+            selectedTab: "zhangben",
         }
     }
 

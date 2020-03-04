@@ -3,7 +3,7 @@ import {AnyAction} from "redux";
 
 const homeState = {
     bottomTabBar: {
-        selectTab: 'home',
+        selectTab: 'zhangben',
     }
 }
 
