@@ -1,20 +1,32 @@
 import React from 'react';
 import './App.css';
 
-import {withRouter} from 'react-router-dom' ;
+import {Route, HashRouter as Router, Switch} from 'react-router-dom' ;
 
 
 import {Home} from "./components/home/Home";
-import {Routers} from "./routers/Routers";
+
+import {Expense} from "./components/book/Expense";
+import {NotFound} from "./components/exception/NotFound";
+
+const routeList = [
+    Expense,
+];
 
 
 function App() {
     return (
-        <div className="Home full-height">
-            <Home></Home>
-            <Routers></Routers>
-        </div>
+        <Router>
+            <Switch>
+                <Route exact path='/' component={Home}/>
+                <Route path="/about" render={() => <div title='About'>23232323</div>}/>
+                <Route>
+                    {routeList}
+                </Route>
+                <Route path='*' component={NotFound}/>
+            </Switch>
+        </Router>
     );
 }
 
-export default withRouter(App);
+export default App;

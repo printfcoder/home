@@ -13,6 +13,7 @@ class state {
 export class Home extends React.Component<HomeProps, {}> {
     constructor(props: any) {
         super(props);
+        alert(123)
     }
 
     state: state = {

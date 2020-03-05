@@ -8,12 +8,12 @@ import {
 
 import {Button, Flex} from 'antd-mobile';
 
-import {Expense} from './Expense'
 
 export interface FlowProps {
 }
 
-class state {}
+class state {
+}
 
 function Top() {
     return (
