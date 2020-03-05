@@ -18,12 +18,10 @@ function App() {
     return (
         <Router>
             <Switch>
-                <Route exact path='/' component={Home}/>
+                <Route path='/abc' component={Home}></Route>
+                <Route path={"/expense"} component={Expense}></Route>
                 <Route path="/about" render={() => <div title='About'>23232323</div>}/>
-                <Route>
-                    {routeList}
-                </Route>
-                <Route path='*' component={NotFound}/>
+                <Route component={NotFound}/>
             </Switch>
         </Router>
     );
